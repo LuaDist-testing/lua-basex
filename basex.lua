@@ -1,6 +1,6 @@
 -- lua-basex
--- version 0.1.1
--- un.def, 2016
+-- version 0.2.0
+-- un.def, 2016-2017
 
 local basex, alphabets, basex_meta, basex_instance_meta
 
@@ -13,12 +13,12 @@ alphabets = {
 }
 
 basex = {
-  _VERSION = 'lua-basex 0.1.1',
+  _VERSION = '0.2.0',
   _URL = 'https://github.com/un-def/lua-basex',
   _DESCRIPTION = 'Base encoding/decoding of any given alphabet ' ..
                  'using bitcoin style leading zero compression',
   _LICENSE = [[
-    Copyright (c) 2016, un.def
+    Copyright (c) 2016-2017, un.def
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -121,7 +121,9 @@ basex_instance_meta = {
       local value, carry
       for i = 1, #str do
         value = self.alphabet_map[str:sub(i, i)]
-        if value == nil then error('Non-base' .. self.base .. ' character') end
+        if value == nil then
+            return nil, 'Non-base' .. self.base .. ' character'
+        end
         carry = value
         for j = 1, #bytes do
           carry = carry + bytes[j] * self.base
